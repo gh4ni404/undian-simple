@@ -18,7 +18,7 @@
       background-image: url('assets/images/background.png');
       background-size: 100%;
       background-repeat: no-repeat;
-      overflow-y: auto; 
+      overflow-y: auto;
     }
 
     .container {
@@ -34,7 +34,7 @@
       background: white;
       border-radius: 20px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      max-width: 4000px;
+      max-width: 4096px;
       width: 80%;
       margin: 10px auto;
     }
@@ -465,6 +465,34 @@
       cursor: not-allowed;
     }
 
+    .spin-button.idle {
+      animation: colorPulse 0.75s ease-in-out infinite;
+    }
+
+    @keyframes colorPulse {
+      0% {
+        background: linear-gradient(135deg, #fee420 0%, #fda80f 100%);
+        box-shadow: 0 8px 20px rgba(245, 87, 108, 0.4);
+      }
+
+      50% {
+        background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      100% {
+        background: linear-gradient(135deg, #fee420 0%, #fda80f 100%);
+        box-shadow: 0 8px 20px rgba(245, 87, 108, 0.4);
+      }
+    }
+
+    .spin-button.idle:hover {
+      animation: none;
+      background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
+    }
+
     .winner-display {
       /* margin-top: 10px; */
       margin: 10px auto 25px auto;
@@ -857,6 +885,7 @@
         <span class="winner-label">Tekan tombol untuk mulai</span>
       </div>
       <div class="winner-details" id="winnerDetails" style="display: none;"></div>
+      <span class="winner-detail-label">Copyright &copy; DKV SMKN 8 Bone</span>
     </div>
 
     <div class="container">
@@ -932,6 +961,7 @@
     let canStop = false;
     let hasSpunOnce = false;
     let spinAudio = null; // Variabel untuk mengontrol audio spin
+    let buttonAnimationInterval = null;
 
     // Initialize the application
     function initializeApp() {
@@ -947,11 +977,22 @@
       document.getElementById('winnerDisplaySection').style.display = 'block';
 
       setupKeyboardControls();
+      startButtonAnimation();
+    }
+
+    function startButtonAnimation() {
+      const spinButton = document.getElementById('spinButton');
+      spinButton.classList.add('idle');
+    }
+
+    function stopButtonAnimation() {
+      const spinButton = document.getElementById('spinButton');
+      spinButton.classList.remove('idle');
     }
 
     // Setup keyboard controls
     function setupKeyboardControls() {
-      document.addEventListener('keydown', function(event) {
+      document.addEventListener('keydown', function (event) {
         // Jika tombol Enter ditekan
         if (event.key === 'Enter' || event.keyCode === 13) {
           // Cek apakah sedang dalam mode spinning
@@ -969,7 +1010,7 @@
           }
           event.preventDefault(); // Mencegah perilaku default (misalnya submit form)
         }
-        
+
         // Tombol Escape untuk menutup modal atau menu
         if (event.key === 'Escape' || event.keyCode === 27) {
           closeAllModalsAndMenus();
@@ -1702,6 +1743,8 @@
       isSpinning = true;
       const spinButton = document.getElementById('spinButton');
       const stopButton = document.getElementById('stopButton');
+
+      stopButtonAnimation();
 
       // Disable spin button immediately
       spinButton.disabled = true;
