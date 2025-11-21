@@ -976,8 +976,8 @@
       // Show winner display section
       document.getElementById('winnerDisplaySection').style.display = 'block';
 
-      setupKeyboardControls();
       startButtonAnimation();
+      setupKeyboardControls();
     }
 
     function startButtonAnimation() {
@@ -1677,6 +1677,7 @@
 
       // Reset reels to idle state after showing winner
       setTimeout(() => {
+        startAnimationButton();
         document.querySelectorAll('.reel-content').forEach((reel, index) => {
           reel.classList.remove('stopping');
 
@@ -1822,5 +1823,6 @@
     });
   </script>
 </body>
+
 
 </html>
