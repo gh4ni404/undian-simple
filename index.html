@@ -1977,17 +1977,6 @@
       playSpinSound();
 
       const winnerDisplaySection = document.getElementById('winnerDisplaySection');
-      // add glow briefly
-      const card = document.getElementById('winnerDisplaySection');
-      card.style.animation = 'none';
-      // force reflow to restart animation
-      void card.offsetWidth;
-      card.style.animation = 'cardPop .6s cubic-bezier(.2,.9,.3,1)';
-
-      // subtle glow via classless inline style
-      card.style.boxShadow = '0 20px 50px rgba(255,183,77,0.12)';
-      setTimeout(() => card.style.boxShadow = '0 8px 30px rgba(0,0,0,0.35)', 900);
-
       const winnerDisplay = document.getElementById('winnerDisplay');
       const winnerDetails = document.getElementById('winnerDetails');
 
