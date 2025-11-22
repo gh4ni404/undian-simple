@@ -1009,12 +1009,37 @@
         </div>
       </div>
       <div class="menu-section">
-        <div class="menu-section-title">Pengaturan Suara</div>
+        <div class="menu-section-title">Pengaturan Suara Pemenang</div>
         <div class="import-buttons">
           <button class="import-btn" onclick="toggleTTS()" id="ttsToggleBtn">
             <span>🔊</span>
             <span id="ttsToggleText">Aktifkan Suara Pemenang</span>
           </button>
+        </div>
+        <div class="tts-settings" id="ttsSettings" style="display: none;">
+          <div class="tts-setting-item">
+            <span class="tts-setting-label">Kecepatan:</span>
+            <span class="tts-setting-value" id="ttsRateValue">1.0</span>
+          </div>
+          <input type="range" min="0.5" max="1.5" step="0.1" value="1.0" class="tts-slider" id="ttsRateSlider" onchange="updateTtsRate(this.value)">
+          
+          <div class="tts-setting-item">
+            <span class="tts-setting-label">Nada:</span>
+            <span class="tts-setting-value" id="ttsPitchValue">1.2</span>
+          </div>
+          <input type="range" min="0.5" max="2" step="0.1" value="1.2" class="tts-slider" id="ttsPitchSlider" onchange="updateTtsPitch(this.value)">
+          
+          <div class="tts-setting-item">
+            <span class="tts-setting-label">Volume:</span>
+            <span class="tts-setting-value" id="ttsVolumeValue">1.0</span>
+          </div>
+          <input type="range" min="0.1" max="1" step="0.1" value="1.0" class="tts-slider" id="ttsVolumeSlider" onchange="updateTtsVolume(this.value)">
+          
+          <div class="tts-setting-item">
+            <span class="tts-setting-label">Jeda Antar Angka:</span>
+            <span class="tts-setting-value" id="ttsPauseValue">0.3s</span>
+          </div>
+          <input type="range" min="0.1" max="1" step="0.1" value="0.3" class="tts-slider" id="ttsPauseSlider" onchange="updateTtsPause(this.value)">
         </div>
         <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px; font-size: 14px;">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
@@ -1194,7 +1219,17 @@
     let spinAudio = null; // Variabel untuk mengontrol audio spin
     let buttonAnimationInterval = null;
     let ttsEnabled = false;
+    let speechSynthesis = window.speechSynthesis;
     let currentWinnerNumber = null;
+    let currentUtterance = null;
+
+    // TTS Settings
+    let ttsSettings = {
+      rate: 1.0,    // Kecepatan bicara (0.1 - 10)
+      pitch: 1.2,   // Nada suara (0 - 2)
+      volume: 1.0,  // Volume (0 - 1)
+      pauseBetweenDigits: 0.3 // Jeda antar angka (detik)
+    };
 
     // Initialize the application
     function initializeApp() {
@@ -1206,6 +1241,7 @@
       updateParticipantCount();
       updateWinnersList();
       updateDataStats();
+      updateTtsStatus();
 
       // Show winner display section
       document.getElementById('winnerDisplaySection').style.display = 'block';
@@ -2128,11 +2164,31 @@
       if (stored !== null) {
         ttsEnabled = JSON.parse(stored);
       }
+
+      const storedTtsSettings = localStorage.getItem('ttsSettings');
+      if (storedTtsSettings) {
+        ttsSettings = { ...ttsSettings, ...JSON.parse(storedTtsSettings) };
+        updateTtsSliders();
+      }
     }
 
     // Save TTS settings
     function saveTtsSettings() {
       localStorage.setItem('ttsEnabled', JSON.stringify(ttsEnabled));
+      localStorage.setItem('ttsSettings', JSON.stringify(ttsSettings));
+    }
+
+    // Update TTS sliders to match current settings
+    function updateTtsSliders() {
+      document.getElementById('ttsRateSlider').value = ttsSettings.rate;
+      document.getElementById('ttsPitchSlider').value = ttsSettings.pitch;
+      document.getElementById('ttsVolumeSlider').value = ttsSettings.volume;
+      document.getElementById('ttsPauseSlider').value = ttsSettings.pauseBetweenDigits;
+      
+      document.getElementById('ttsRateValue').textContent = ttsSettings.rate.toFixed(1);
+      document.getElementById('ttsPitchValue').textContent = ttsSettings.pitch.toFixed(1);
+      document.getElementById('ttsVolumeValue').textContent = ttsSettings.volume.toFixed(1);
+      document.getElementById('ttsPauseValue').textContent = ttsSettings.pauseBetweenDigits.toFixed(1) + 's';
     }
 
     // Toggle TTS
@@ -2141,12 +2197,40 @@
       saveTtsSettings();
       updateTtsStatus();
 
+      const ttsSettingsElement = document.getElementById('ttsSettings');
       if (ttsEnabled) {
+        ttsSettingsElement.style.display = 'block';
         showError('Fitur suara pemenang telah diaktifkan');
       } else {
+        ttsSettingsElement.style.display = 'none';
         showError('Fitur suara pemenang telah dinonaktifkan');
         stopSpeaking();
       }
+    }
+
+    // Update TTS settings
+    function updateTtsRate(value) {
+      ttsSettings.rate = parseFloat(value);
+      document.getElementById('ttsRateValue').textContent = value;
+      saveTtsSettings();
+    }
+
+    function updateTtsPitch(value) {
+      ttsSettings.pitch = parseFloat(value);
+      document.getElementById('ttsPitchValue').textContent = value;
+      saveTtsSettings();
+    }
+
+    function updateTtsVolume(value) {
+      ttsSettings.volume = parseFloat(value);
+      document.getElementById('ttsVolumeValue').textContent = value;
+      saveTtsSettings();
+    }
+
+    function updateTtsPause(value) {
+      ttsSettings.pauseBetweenDigits = parseFloat(value);
+      document.getElementById('ttsPauseValue').textContent = value + 's';
+      saveTtsSettings();
     }
 
     // Update TTS status display
@@ -2172,48 +2256,148 @@
       // Stop any ongoing speech
       stopSpeaking();
 
+      // Split number into individual digits for clearer pronunciation
+      const digits = currentWinnerNumber.split('');
+      let fullText = `Nomor pemenang adalah `;
+
+      // Add each digit with a slight pause for clarity
+      digits.forEach((digit, index) => {
+        fullText += digit;
+        if (index < digits.length - 1) {
+          fullText += '... ';
+        }
+      });
+
       // Create utterance for the winner number
       const utterance = new SpeechSynthesisUtterance();
-      utterance.text = `Nomor pemenang adalah ${currentWinnerNumber}`;
+      utterance.text = fullText;
       utterance.lang = 'id-ID';
-      utterance.rate = 0.9;
-      utterance.pitch = 1;
-      utterance.volume = 1;
+      utterance.rate = ttsSettings.rate;
+      utterance.pitch = ttsSettings.pitch;
+      utterance.volume = ttsSettings.volume;
 
       // Set up event handlers
-      utterance.onstart = function () {
+      utterance.onstart = function() {
         document.getElementById('ttsButton').style.display = 'none';
         document.getElementById('stopTtsButton').style.display = 'block';
       };
-
-      utterance.onend = function () {
+      
+      utterance.onend = function() {
         document.getElementById('ttsButton').style.display = 'block';
         document.getElementById('stopTtsButton').style.display = 'none';
         currentUtterance = null;
       };
-
-      utterance.onerror = function (event) {
+      
+      utterance.onerror = function(event) {
         console.error('Speech synthesis error:', event);
         document.getElementById('ttsButton').style.display = 'block';
         document.getElementById('stopTtsButton').style.display = 'none';
         currentUtterance = null;
-
+        
         // Fallback: try with English voice if Indonesian is not available
         if (event.error === 'voice-not-found') {
           utterance.lang = 'en-US';
           speechSynthesis.speak(utterance);
         }
       };
-
-      // Try to set Indonesian voice
+      
+      // Try to set Indonesian voice with higher pitch for clarity
       const voices = speechSynthesis.getVoices();
-      const idVoice = voices.find(voice => voice.lang === 'id-ID');
-      if (idVoice) {
-        utterance.voice = idVoice;
+      
+      // Prefer female voices for clearer articulation
+      let preferredVoice = voices.find(voice => 
+        voice.lang === 'id-ID' && 
+        (voice.name.includes('Perempuan') || voice.name.toLowerCase().includes('female'))
+      );
+      
+      // If no Indonesian female voice, try any Indonesian voice
+      if (!preferredVoice) {
+        preferredVoice = voices.find(voice => voice.lang === 'id-ID');
       }
-
+      
+      // If still no Indonesian voice, try English female voice
+      if (!preferredVoice) {
+        preferredVoice = voices.find(voice => 
+          voice.lang.startsWith('en') && 
+          (voice.name.toLowerCase().includes('female') || voice.name.toLowerCase().includes('woman'))
+        );
+      }
+      
+      // Final fallback: any English voice
+      if (!preferredVoice) {
+        preferredVoice = voices.find(voice => voice.lang.startsWith('en'));
+      }
+      
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+      
       currentUtterance = utterance;
       speechSynthesis.speak(utterance);
+    }
+
+    // Alternative method for even clearer digit-by-digit pronunciation
+    function speakDigitsClearly() {
+      if (!ttsEnabled || !currentWinnerNumber) return;
+      
+      stopSpeaking();
+      
+      const digits = currentWinnerNumber.split('');
+      let currentIndex = 0;
+      
+      function speakNextDigit() {
+        if (currentIndex >= digits.length) {
+          document.getElementById('ttsButton').style.display = 'block';
+          document.getElementById('stopTtsButton').style.display = 'none';
+          return;
+        }
+        
+        const utterance = new SpeechSynthesisUtterance();
+        utterance.text = digits[currentIndex];
+        utterance.lang = 'id-ID';
+        utterance.rate = ttsSettings.rate;
+        utterance.pitch = ttsSettings.pitch;
+        utterance.volume = ttsSettings.volume;
+        
+        utterance.onend = function() {
+          currentIndex++;
+          setTimeout(speakNextDigit, ttsSettings.pauseBetweenDigits * 1000);
+        };
+        
+        utterance.onerror = function() {
+          currentIndex++;
+          setTimeout(speakNextDigit, ttsSettings.pauseBetweenDigits * 1000);
+        };
+        
+        // Try to set a clear voice
+        const voices = speechSynthesis.getVoices();
+        const preferredVoice = voices.find(voice => 
+          voice.lang === 'id-ID' || voice.lang.startsWith('en')
+        );
+        
+        if (preferredVoice) {
+          utterance.voice = preferredVoice;
+        }
+        
+        speechSynthesis.speak(utterance);
+      }
+      
+      document.getElementById('ttsButton').style.display = 'none';
+      document.getElementById('stopTtsButton').style.display = 'block';
+      
+      // Start with announcement
+      const introUtterance = new SpeechSynthesisUtterance();
+      introUtterance.text = "Nomor pemenang adalah";
+      introUtterance.lang = 'id-ID';
+      introUtterance.rate = ttsSettings.rate;
+      introUtterance.pitch = ttsSettings.pitch;
+      introUtterance.volume = ttsSettings.volume;
+      
+      introUtterance.onend = function() {
+        setTimeout(speakNextDigit, 500);
+      };
+      
+      speechSynthesis.speak(introUtterance);
     }
 
     // Function to stop speaking
