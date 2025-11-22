@@ -502,12 +502,6 @@
     }
 
     .winner-display {
-      /* 
-      padding: 10px;
-      background: linear-gradient(180deg, #fee420 0%, #fda80f 100%);
-      border-radius: 15px;
-      min-height: 60px;
-      box-shadow: 0 4px 15px rgba(253, 203, 110, 0.4); */
       width: 70%;
       margin: 10px auto 25px;
       background: linear-gradient(180deg, #fee420 0%, #fda80f 100%);
@@ -552,24 +546,16 @@
     }
 
     .winner-label {
-      /* font-size: 32px;
-      font-weight: bold;
-      margin-right: 10px; */
-      /* color: var(--accent); */
       color: #2d3436;
       background: linear-gradient(90deg, rgba(255, 183, 77, 0.08), rgba(255, 183, 77, 0.04));
       padding: 8px 14px;
-      /* border-radius: 999px; */
       font-weight: 700;
       letter-spacing: 0.6px;
       font-size: 2rem;
-      /* border: 1px solid rgba(45, 52, 54, 0.18); */
-      /* margin-bottom: 20px; */
     }
 
     .winner-details {
       padding: 0 45px;
-      /* background: white; */
       border-radius: 10px;
       text-align: left;
     }
@@ -580,7 +566,6 @@
       gap: 18px;
       align-items: flex-start;
       flex-wrap: wrap;
-      /* border-bottom: 1px solid #e9ecef; */
     }
 
     .winner-detail-row:last-child {
@@ -700,7 +685,6 @@
 
     /* Reveal effect for code text */
     .reveal {
-      /* color: var(--accent); */
       display: inline-block;
       transform-origin: bottom;
       animation: revealScale .5s ease both;
@@ -916,6 +900,99 @@
     .tts-btn.stop:hover {
       background: #c0392b;
     }
+
+    .delete-winner-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      margin-left: 15px;
+    }
+
+    .delete-winner-btn:hover {
+      background: #c0392b;
+      transform: scale(1.05);
+    }
+
+    .winner-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      margin: 10px 0;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 10px;
+      border-left: 5px solid #667eea;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      animation: slideIn 0.5s ease;
+    }
+
+    .winner-info {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .winner-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .stop-button:disabled {
+      background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%) !important;
+      box-shadow: 0 4px 15px rgba(149, 165, 166, 0.4) !important;
+      transform: none !important;
+      cursor: not-allowed !important;
+    }
+
+    /* Perbaikan styling untuk TTS controls */
+    .tts-settings {
+      margin-top: 15px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+    }
+
+    .tts-setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .tts-slider {
+      width: 100%;
+      margin-bottom: 15px;
+      height: 6px;
+      border-radius: 3px;
+      background: #ddd;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .tts-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+    }
+
+    .tts-slider::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+      border: none;
+    }
   </style>
 </head>
 
@@ -1021,25 +1098,29 @@
             <span class="tts-setting-label">Kecepatan:</span>
             <span class="tts-setting-value" id="ttsRateValue">1.0</span>
           </div>
-          <input type="range" min="0.5" max="1.5" step="0.1" value="1.0" class="tts-slider" id="ttsRateSlider" onchange="updateTtsRate(this.value)">
-          
+          <input type="range" min="0.5" max="1.5" step="0.1" value="1.0" class="tts-slider" id="ttsRateSlider"
+            onchange="updateTtsRate(this.value)">
+
           <div class="tts-setting-item">
             <span class="tts-setting-label">Nada:</span>
             <span class="tts-setting-value" id="ttsPitchValue">1.2</span>
           </div>
-          <input type="range" min="0.5" max="2" step="0.1" value="1.2" class="tts-slider" id="ttsPitchSlider" onchange="updateTtsPitch(this.value)">
-          
+          <input type="range" min="0.5" max="2" step="0.1" value="1.2" class="tts-slider" id="ttsPitchSlider"
+            onchange="updateTtsPitch(this.value)">
+
           <div class="tts-setting-item">
             <span class="tts-setting-label">Volume:</span>
             <span class="tts-setting-value" id="ttsVolumeValue">1.0</span>
           </div>
-          <input type="range" min="0.1" max="1" step="0.1" value="1.0" class="tts-slider" id="ttsVolumeSlider" onchange="updateTtsVolume(this.value)">
-          
+          <input type="range" min="0.1" max="1" step="0.1" value="1.0" class="tts-slider" id="ttsVolumeSlider"
+            onchange="updateTtsVolume(this.value)">
+
           <div class="tts-setting-item">
             <span class="tts-setting-label">Jeda Antar Angka:</span>
             <span class="tts-setting-value" id="ttsPauseValue">0.3s</span>
           </div>
-          <input type="range" min="0.1" max="1" step="0.1" value="0.3" class="tts-slider" id="ttsPauseSlider" onchange="updateTtsPause(this.value)">
+          <input type="range" min="0.1" max="1" step="0.1" value="0.3" class="tts-slider" id="ttsPauseSlider"
+            onchange="updateTtsPause(this.value)">
         </div>
         <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px; font-size: 14px;">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
@@ -1048,6 +1129,46 @@
           </div>
         </div>
       </div>
+      <!-- <div class="menu-section">
+        <div class="menu-section-title">Pengaturan Suara Pemenang</div>
+        <div class="import-buttons">
+          <button class="import-btn" onclick="toggleTTS()" id="ttsToggleBtn">
+            <span>🔊</span>
+            <span id="ttsToggleText">Aktifkan Suara Pemenang</span>
+          </button>
+        </div>
+        <div class="tts-settings" id="ttsSettings" style="display: none;">
+          <div class="tts-setting-item">
+            <span class="tts-setting-label">Kecepatan:</span>
+            <span class="tts-setting-value" id="ttsRateValue">1.0</span>
+          </div>
+          <input type="range" min="0.5" max="2" step="0.1" value="1.0" class="tts-slider" id="ttsRateSlider"
+            onchange="updateTtsRate(this.value)">
+
+          <div class="tts-setting-item">
+            <span class="tts-setting-label">Nada Suara:</span>
+            <span class="tts-setting-value" id="ttsPitchValue">1.0</span>
+          </div>
+          <input type="range" min="0.5" max="1.5" step="0.1" value="1.0" class="tts-slider" id="ttsPitchSlider"
+            onchange="updateTtsPitch(this.value)">
+
+          <div class="tts-setting-item">
+            <span class="tts-setting-label">Volume:</span>
+            <span class="tts-setting-value" id="ttsVolumeValue">1.0</span>
+          </div>
+          <input type="range" min="0.1" max="1" step="0.1" value="1.0" class="tts-slider" id="ttsVolumeSlider"
+            onchange="updateTtsVolume(this.value)">
+        </div>
+        <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px; font-size: 14px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+            <span style="font-weight: bold;">Status TTS:</span>
+            <span id="ttsStatus" style="color: #e74c3c;">Nonaktif</span>
+          </div>
+          <div style="font-size: 12px; color: #636e72; margin-top: 5px;">
+            Menggunakan Web Speech API - tidak memerlukan file audio
+          </div>
+        </div>
+      </div> -->
       <div class="menu-section">
         <div class="menu-section-title">Kelola Data</div>
         <div class="import-buttons">
@@ -1058,6 +1179,20 @@
           <button class="import-btn" onclick="exportWinners()">
             <span>📥</span>
             <span>Export Daftar Pemenang</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section-title">Kelola Pengecualian</div>
+        <div class="import-buttons">
+          <button class="import-btn" onclick="showExcludedWinners()">
+            <span>📋</span>
+            <span>Lihat Daftar Pengecualian</span>
+          </button>
+          <button class="import-btn danger" onclick="clearExcludedWinners(this)">
+            <span>🔄</span>
+            <span>Reset Semua Pengecualian</span>
           </button>
         </div>
       </div>
@@ -1076,7 +1211,7 @@
   </div>
 
   <!-- Reel -->
-  <div class="container-wheel" style="margin-top: 500px;">
+  <div class="container-wheel" style="margin-top: 520px;">
     <div class="slot-machine">
       <!-- Reel 1 -->
       <div class="reel">
@@ -1121,7 +1256,7 @@
   <div class="container">
     <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
       <button class="spin-button" id="spinButton" onclick="spin()">PUTAR</button>
-      <button class="spin-button" id="stopButton" onclick="stopSpin()"
+      <button class="spin-button stop-button" id="stopButton" onclick="stopSpin()"
         style="display: none; background: linear-gradient(135deg, #fda80f 0%, #c0392b 100%); box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);">STOP</button>
     </div>
 
@@ -1222,8 +1357,10 @@
     let speechSynthesis = window.speechSynthesis;
     let currentWinnerNumber = null;
     let currentUtterance = null;
+    let isStopping = false; // Flag untuk mencegah multiple stop
+    let excludedWinners = []; // Menyimpan nomor pemenang yang dikecualikan dari undian
 
-    // TTS Settings
+    // TTS Settings dengan Web Speech API
     let ttsSettings = {
       rate: 1.0,    // Kecepatan bicara (0.1 - 10)
       pitch: 1.2,   // Nada suara (0 - 2)
@@ -1235,6 +1372,7 @@
     function initializeApp() {
       loadParticipantsFromStorage();
       loadWinnersFromStorage();
+      loadExcludedWinnersFromStorage();
       loadSoundsFromStorage();
       loadTtsSettings();
       generateReelSymbols();
@@ -1242,6 +1380,12 @@
       updateWinnersList();
       updateDataStats();
       updateTtsStatus();
+
+      // Load voices saat inisialisasi
+      // loadVoices().then(() => {
+      //   console.log('Voices loaded successfully');
+      //   showAvailableVoices();
+      // });
 
       // Show winner display section
       document.getElementById('winnerDisplaySection').style.display = 'block';
@@ -1345,8 +1489,13 @@
       if (participants.length === 0) {
         countElement.textContent = 'Belum ada data peserta';
       } else {
-        const availableCount = participants.length - winners.length;
-        countElement.textContent = `Total Peserta: ${participants.length} orang\nBelum menang: ${availableCount} orang`;
+        const eligibleCount = participants.filter(p =>
+          !winners.some(w => w.participant.id === p.id) &&
+          !excludedWinners.includes(p.nomor_pendaftaran)
+        ).length;
+
+        const excludedCount = excludedWinners.length;
+        countElement.textContent = `Total Peserta: ${participants.length} orang\nBelum menang: ${eligibleCount} orang\nDikecualikan: ${excludedCount} orang`;
         countElement.style.whiteSpace = 'pre-line';
       }
     }
@@ -1362,14 +1511,75 @@
         dataStats.style.display = 'block';
         statTotal.textContent = participants.length;
         statWinners.textContent = winners.length;
-        const remaining = participants.length - winners.length;
-        statRemaining.textContent = remaining;
+
+        const eligibleParticipants = participants.filter(p =>
+          !winners.some(w => w.participant.id === p.id) &&
+          !excludedWinners.includes(p.nomor_pendaftaran)
+        );
+
+        const excludedCount = excludedWinners.length;
+        statRemaining.textContent = `${eligibleParticipants.length} (${excludedCount} dikecualikan)`;
 
         const percentage = participants.length > 0 ? ((winners.length / participants.length) * 100).toFixed(1) : 0;
         statPercentage.textContent = `${percentage}%`;
       } else {
         dataStats.style.display = 'none';
       }
+    }
+
+    function showExcludedWinners() {
+      if (excludedWinners.length === 0) {
+        showError('Tidak ada pemenang yang dikecualikan');
+        return;
+      }
+
+      const excludedList = excludedWinners.join(', ');
+      const confirmDiv = document.createElement('div');
+      confirmDiv.className = 'modal active';
+      confirmDiv.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-title">Daftar Nomor yang Dikecualikan</div>
+      <p>Nomor-nomor berikut TIDAK AKAN DIUNDI LAGI:</p>
+      <div style="max-height: 300px; overflow-y: auto; margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+        ${excludedWinners.map(num => `<div style="padding: 5px 0; border-bottom: 1px solid #e9ecef;">${num}</div>`).join('')}
+      </div>
+      <p>Total: ${excludedWinners.length} nomor</p>
+      <div class="modal-buttons">
+        <button class="import-btn danger" onclick="clearExcludedWinners(this)">Hapus Semua Pengecualian</button>
+        <button class="import-btn" onclick="this.closest('.modal').remove()">Tutup</button>
+      </div>
+    </div>
+  `;
+      document.body.appendChild(confirmDiv);
+    }
+
+    function clearExcludedWinners(button) {
+      if (excludedWinners.length === 0) {
+        showError('Tidak ada pengecualian yang bisa dihapus');
+        return;
+      }
+
+      const confirmMessage = `Yakin ingin menghapus SEMUA pengecualian?\nTotal: ${excludedWinners.length} nomor\n\nNomor-nomor ini akan BISA DIUNDI LAGI!`;
+
+      if (!confirm(confirmMessage)) {
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'Menghapus...';
+
+      // Hapus semua pengecualian
+      excludedWinners = [];
+      saveExcludedWinnersToStorage();
+
+      // Update tampilan
+      updateParticipantCount();
+      updateDataStats();
+
+      // Tutup modal
+      button.closest('.modal').remove();
+
+      showError(`✓ Semua pengecualian berhasil dihapus. Semua nomor sekarang bisa diundi lagi.`);
     }
 
     function toggleMenu() {
@@ -1885,18 +2095,39 @@
     }
 
     async function stopSpin() {
-      if (!canStop) return;
+      // Cegah multiple clicks
+      if (!canStop || isStopping) {
+        return;
+      }
+
+      // Set flag bahwa proses stop sedang berlangsung
+      isStopping = true;
+
+      // Nonaktifkan tombol stop secara visual
+      const stopButton = document.getElementById('stopButton');
+      stopButton.disabled = true;
+      stopButton.style.opacity = '0.6';
+      stopButton.style.cursor = 'not-allowed';
+      stopButton.textContent = 'MENGENTIKAN...';
 
       // Hentikan sound spin
       stopSpinSound();
 
-      // Get list of participants who haven't won yet
+      // Get list of participants who haven't won yet dan tidak dikecualikan
       const availableParticipants = participants.filter(p =>
-        !winners.some(w => w.participant.id === p.id)
+        !winners.some(w => w.participant.id === p.id) &&
+        !excludedWinners.includes(p.nomor_pendaftaran)
       );
 
       if (availableParticipants.length === 0) {
         showError('Semua peserta sudah pernah menang!');
+
+        // Reset state
+        isStopping = false;
+        stopButton.disabled = false;
+        stopButton.style.opacity = '1';
+        stopButton.style.cursor = 'pointer';
+        stopButton.textContent = 'STOP';
         return;
       }
 
@@ -1917,41 +2148,42 @@
 
       const digits = paddedNumber.split('').map(d => parseInt(d));
 
-      // Stop reels one by one with delay
-      await Promise.all([
-        spinReel('reel1', 500, digits[0], 0),
-        spinReel('reel2', 800, digits[1], 1),
-        spinReel('reel3', 1100, digits[2], 2),
-        spinReel('reel4', 1400, digits[3], 3),
-        spinReel('reel5', 1700, digits[4], 4),
-        spinReel('reel6', 2000, digits[5], 5)
-      ]);
+      try {
+        // Stop reels one by one with delay
+        await Promise.all([
+          spinReel('reel1', 500, digits[0], 0),
+          spinReel('reel2', 800, digits[1], 1),
+          spinReel('reel3', 1100, digits[2], 2),
+          spinReel('reel4', 1400, digits[3], 3),
+          spinReel('reel5', 1700, digits[4], 4),
+          spinReel('reel6', 2000, digits[5], 5)
+        ]);
 
-      const winnerLabel = config.winner_label || defaultConfig.winner_label;
-      const winnerDisplay = document.getElementById('winnerDisplay');
-      const winnerDetails = document.getElementById('winnerDetails');
-      const ttsControls = document.getElementById('ttsControls');
+        const winnerLabel = config.winner_label || defaultConfig.winner_label;
+        const winnerDisplay = document.getElementById('winnerDisplay');
+        const winnerDetails = document.getElementById('winnerDetails');
+        const ttsControls = document.getElementById('ttsControls');
 
-      // add glow briefly
-      const card = document.getElementById('winnerDisplaySection');
-      card.style.animation = 'none';
-      // force reflow to restart animation
-      void card.offsetWidth;
-      card.style.animation = 'cardPop .6s cubic-bezier(.2,.9,.3,1)';
+        // add glow briefly
+        const card = document.getElementById('winnerDisplaySection');
+        card.style.animation = 'none';
+        // force reflow to restart animation
+        void card.offsetWidth;
+        card.style.animation = 'cardPop .6s cubic-bezier(.2,.9,.3,1)';
 
-      // subtle glow via classless inline style
-      card.style.boxShadow = '0 20px 50px rgba(255,183,77,0.12)';
-      setTimeout(() => card.style.boxShadow = '0 8px 30px rgba(0,0,0,0.35)', 900);
+        // subtle glow via classless inline style
+        card.style.boxShadow = '0 20px 50px rgba(255,183,77,0.12)';
+        setTimeout(() => card.style.boxShadow = '0 8px 30px rgba(0,0,0,0.35)', 900);
 
-      winnerDisplay.innerHTML = `
-      <div class="title-winner">
-        <span class="winner-label"><span class="reveal">🏆 ${winnerLabel} ${randomParticipant.nama}</span></span>
-        <span class="winner-label"><span class="reveal">${winnerNumber}</span></span>  
-      </div>`;
+        winnerDisplay.innerHTML = `
+        <div class="title-winner">
+          <span class="winner-label"><span class="reveal">🏆 ${winnerLabel} ${randomParticipant.nama}</span></span>
+          <span class="winner-label"><span class="reveal">${winnerNumber}</span></span>  
+        </div>`;
 
-      // Show winner details
-      winnerDetails.style.display = 'block';
-      winnerDetails.innerHTML = `
+        // Show winner details
+        winnerDetails.style.display = 'block';
+        winnerDetails.innerHTML = `
         <div class="winner-detail-row">
           <!-- Left: avatar + name -->
           <div class="winner-detail-left">
@@ -1965,8 +2197,8 @@
           <!-- Right: details grid -->
           <div class="winner-detail-right">
             <div class="winner-detail-card">
-              <div class="winner-detail-label">Instansi</div>
-              <div class="winner-detail-value" style="">${randomParticipant.instansi || '-'}</div>
+              <div class="winner-detail-label">NIK (Nomor Induk Kependudukan)</div>
+              <div class="winner-detail-value" style="">${randomParticipant.nik || '-'}</div>
             </div>
 
             <div class="winner-detail-card">
@@ -1980,95 +2212,115 @@
             </div>
 
             <div class="winner-detail-card">
-              <div class="winner-detail-label">Telepon</div>
-              <div class="winner-detail-value">${randomParticipant.telepon || '-'}</div>
+              <div class="winner-detail-label">Instansi</div>
+              <div class="winner-detail-value">${randomParticipant.instansi || '-'}</div>
             </div>
           </div>
         </div>
-      `;
+        `;
 
-      // Show TTS controls if enabled
-      if (ttsEnabled) {
-        ttsControls.style.display = 'flex';
-        // Auto-speak the winner number after a short delay
-        setTimeout(() => {
-          speakWinnerNumber();
-        }, 3000);
-      } else {
-        ttsControls.style.display = 'none';
-      }
-
-      // Add to winners list
-      winners.push({
-        number: winnerNumber,
-        name: randomParticipant.nama,
-        participant: randomParticipant
-      });
-      saveWinnersToStorage();
-      updateWinnersList();
-      updateParticipantCount();
-      updateDataStats();
-
-      // Play winner sound
-      playWinnerSound();
-
-      createConfetti();
-
-      // Reset reels to idle state after showing winner
-      setTimeout(() => {
-        document.querySelectorAll('.reel-content').forEach((reel, index) => {
-          reel.classList.remove('stopping');
-
-          // Add delay class if this is not the first spin
-          if (hasSpunOnce) {
-            reel.classList.add('delayed');
-
-            // Set custom CSS property for starting position based on winner number
-            const winnerDigit = digits[index];
-            const startOffset = -winnerDigit * 120;
-            reel.style.setProperty('--idle-start-position', `${startOffset}px`);
-          }
-
-          reel.classList.add('idle');
-          reel.style.transition = 'none';
-          reel.style.removeProperty('--final-position');
-        });
-
-        // Remove all reel container effects
-        document.querySelectorAll('.reel').forEach(reelContainer => {
-          reelContainer.classList.remove('spinning-active', 'stopping-active');
-        });
-
-        // Enable spin button based on whether we need to wait for idle animation
-        const spinButton = document.getElementById('spinButton');
-        if (hasSpunOnce) {
-          // Keep button disabled for 60 seconds (until idle animation starts)
+        // Show TTS controls if enabled
+        if (ttsEnabled) {
+          ttsControls.style.display = 'flex';
+          // Auto-speak the winner number after a short delay
           setTimeout(() => {
+            speakWinnerNumber();
+          }, 3000);
+        } else {
+          ttsControls.style.display = 'none';
+        }
+
+        // Add to winners list
+        winners.push({
+          number: winnerNumber,
+          name: randomParticipant.nama,
+          participant: randomParticipant
+        });
+        saveWinnersToStorage();
+        updateWinnersList();
+        updateParticipantCount();
+        updateDataStats();
+
+        // Play winner sound
+        playWinnerSound();
+
+        createConfetti();
+
+        // Reset reels to idle state after showing winner
+        setTimeout(() => {
+          document.querySelectorAll('.reel-content').forEach((reel, index) => {
+            reel.classList.remove('stopping');
+
+            // Add delay class if this is not the first spin
+            if (hasSpunOnce) {
+              reel.classList.add('delayed');
+
+              // Set custom CSS property for starting position based on winner number
+              const winnerDigit = digits[index];
+              const startOffset = -winnerDigit * 120;
+              reel.style.setProperty('--idle-start-position', `${startOffset}px`);
+            }
+
+            reel.classList.add('idle');
+            reel.style.transition = 'none';
+            reel.style.removeProperty('--final-position');
+          });
+
+          // Remove all reel container effects
+          document.querySelectorAll('.reel').forEach(reelContainer => {
+            reelContainer.classList.remove('spinning-active', 'stopping-active');
+          });
+
+          // Enable spin button based on whether we need to wait for idle animation
+          const spinButton = document.getElementById('spinButton');
+          if (hasSpunOnce) {
+            // Keep button disabled for 60 seconds (until idle animation starts)
+            setTimeout(() => {
+              spinButton.disabled = false;
+              spinButton.style.opacity = '1';
+              startButtonAnimation();
+              spinButton.style.cursor = 'pointer';
+            }, 30000); // 60 seconds delay
+          } else {
+            // First spin - enable immediately
             spinButton.disabled = false;
             spinButton.style.opacity = '1';
-            startButtonAnimation();
             spinButton.style.cursor = 'pointer';
-          }, 30000); // 60 seconds delay
-        } else {
-          // First spin - enable immediately
-          spinButton.disabled = false;
-          spinButton.style.opacity = '1';
-          spinButton.style.cursor = 'pointer';
-        }
-      }, 3000);
+          }
+        }, 3000);
 
-      // Hide stop button, show spin button
-      document.getElementById('stopButton').style.display = 'none';
-      document.getElementById('spinButton').style.display = 'block';
+        // Hide stop button, show spin button
+        document.getElementById('stopButton').style.display = 'none';
+        document.getElementById('spinButton').style.display = 'block';
 
-      canStop = false;
-      isSpinning = false;
-      spinTimeouts = [];
-      hasSpunOnce = true;
+        canStop = false;
+        isSpinning = false;
+        spinTimeouts = [];
+        hasSpunOnce = true;
+
+      } catch (error) {
+        console.error('Error during stop process:', error);
+        showError('Terjadi kesalahan saat menghentikan putaran');
+      } finally {
+        // Reset stopping flag regardless of success or error
+        isStopping = false;
+
+        // Reset tombol stop ke state normal
+        stopButton.disabled = false;
+        stopButton.style.opacity = '1';
+        stopButton.style.cursor = 'pointer';
+        stopButton.textContent = 'STOP';
+      }
     }
 
     async function spin() {
-      if (isSpinning) return;
+      if (isSpinning || isStopping) return; // Juga cegah jika sedang stopping
+
+      // Hitung peserta yang eligible (belum menang dan tidak dikecualikan)
+      const eligibleParticipants = participants.filter(p =>
+        !winners.some(w => w.participant.id === p.id) &&
+        !excludedWinners.includes(p.nomor_pendaftaran)
+      );
 
       if (participants.length === 0) {
         showError('Belum ada data peserta. Silakan import data terlebih dahulu.');
@@ -2081,6 +2333,7 @@
       }
 
       isSpinning = true;
+      isStopping = false; // Reset stopping flag
       const spinButton = document.getElementById('spinButton');
       const stopButton = document.getElementById('stopButton');
 
@@ -2093,6 +2346,12 @@
 
       spinButton.style.display = 'none';
       stopButton.style.display = 'block';
+
+      // Reset tombol stop ke state normal
+      stopButton.disabled = false;
+      stopButton.style.opacity = '1';
+      stopButton.style.cursor = 'pointer';
+      stopButton.textContent = 'STOP';
 
       // Enable stop after 1 second
       setTimeout(() => {
@@ -2147,10 +2406,17 @@
           const winnerItem = document.createElement('div');
           winnerItem.className = 'winner-item';
           winnerItem.innerHTML = `
-            <div class="winner-rank">Pemenang ${index + 1}</div>
-            <div class="winner-number">${winner.number}</div>
-            <div class="winner-name">${winner.name}</div>
-          `;
+        <div class="winner-info">
+          <div class="winner-rank">Pemenang ${index + 1}</div>
+          <div class="winner-number">${winner.number}</div>
+          <div class="winner-name">${winner.name}</div>
+        </div>
+        <div class="winner-actions">
+          <button class="delete-winner-btn" onclick="deleteWinner(${index})" title="Hapus pemenang">
+            🗑️ Hapus
+          </button>
+        </div>
+      `;
           winnersContainer.appendChild(winnerItem);
         });
       } else {
@@ -2158,7 +2424,108 @@
       }
     }
 
-    // Load TTS settings
+    function deleteWinner(index) {
+      if (index < 0 || index >= winners.length) {
+        showError('Indeks pemenang tidak valid');
+        return;
+      }
+
+      // Konfirmasi penghapusan
+      const winner = winners[index];
+      const confirmMessage = `Yakin ingin menghapus pemenang:\n${winner.name}\nNomor: ${winner.number}\n\nNomor ini TIDAK AKAN BISA DIUNDI LAGI!`;
+
+      if (!confirm(confirmMessage)) {
+        return;
+      }
+
+      // Tambahkan ke daftar pengecualian
+      if (!excludedWinners.includes(winner.number)) {
+        excludedWinners.push(winner.number);
+        saveExcludedWinnersToStorage();
+      }
+
+      // Hapus dari array winners
+      const deletedWinner = winners.splice(index, 1)[0];
+
+      // Simpan perubahan ke localStorage
+      saveWinnersToStorage();
+
+      // Update tampilan
+      updateWinnersList();
+      updateParticipantCount();
+      updateDataStats();
+
+      // Tampilkan pesan sukses
+      showError(`✓ Pemenang "${deletedWinner.name}" berhasil dihapus dan tidak akan diundi lagi`);
+
+      // Jika daftar pemenang kosong, sembunyikan section
+      if (winners.length === 0) {
+        document.getElementById('winnersList').style.display = 'none';
+      }
+    }
+
+    function deleteAllWinners() {
+      if (winners.length === 0) {
+        showError('Tidak ada pemenang yang bisa dihapus');
+        return;
+      }
+
+      const confirmMessage = `Yakin ingin menghapus SEMUA pemenang?\nTotal: ${winners.length} pemenang\n\nSemua nomor ini TIDAK AKAN BISA DIUNDI LAGI!\n\nTindakan ini tidak dapat dibatalkan!`;
+
+      if (!confirm(confirmMessage)) {
+        return;
+      }
+
+      // Tambahkan semua nomor pemenang ke daftar pengecualian
+      winners.forEach(winner => {
+        if (!excludedWinners.includes(winner.number)) {
+          excludedWinners.push(winner.number);
+        }
+      });
+
+      saveExcludedWinnersToStorage();
+
+      // Simpan jumlah pemenang untuk pesan
+      const winnerCount = winners.length;
+
+      // Hapus semua pemenang
+      winners = [];
+
+      // Simpan perubahan ke localStorage
+      saveWinnersToStorage();
+
+      // Update tampilan
+      updateWinnersList();
+      updateParticipantCount();
+      updateDataStats();
+
+      // Sembunyikan section winners list
+      document.getElementById('winnersList').style.display = 'none';
+
+      // Tampilkan pesan sukses
+      showError(`✓ Semua ${winnerCount} pemenang berhasil dihapus dan tidak akan diundi lagi`);
+    }
+
+    // // Load TTS settings
+    // function loadTtsSettings() {
+    //   const stored = localStorage.getItem('ttsEnabled');
+    //   if (stored !== null) {
+    //     ttsEnabled = JSON.parse(stored);
+    //   }
+
+    //   const storedTtsSettings = localStorage.getItem('ttsSettings');
+    //   if (storedTtsSettings) {
+    //     ttsSettings = { ...ttsSettings, ...JSON.parse(storedTtsSettings) };
+    //     updateTtsSliders();
+    //   }
+    // }
+
+    // // Save TTS settings
+    // function saveTtsSettings() {
+    //   localStorage.setItem('ttsEnabled', JSON.stringify(ttsEnabled));
+    //   localStorage.setItem('ttsSettings', JSON.stringify(ttsSettings));
+    // }
+
     function loadTtsSettings() {
       const stored = localStorage.getItem('ttsEnabled');
       if (stored !== null) {
@@ -2172,23 +2539,9 @@
       }
     }
 
-    // Save TTS settings
     function saveTtsSettings() {
       localStorage.setItem('ttsEnabled', JSON.stringify(ttsEnabled));
       localStorage.setItem('ttsSettings', JSON.stringify(ttsSettings));
-    }
-
-    // Update TTS sliders to match current settings
-    function updateTtsSliders() {
-      document.getElementById('ttsRateSlider').value = ttsSettings.rate;
-      document.getElementById('ttsPitchSlider').value = ttsSettings.pitch;
-      document.getElementById('ttsVolumeSlider').value = ttsSettings.volume;
-      document.getElementById('ttsPauseSlider').value = ttsSettings.pauseBetweenDigits;
-      
-      document.getElementById('ttsRateValue').textContent = ttsSettings.rate.toFixed(1);
-      document.getElementById('ttsPitchValue').textContent = ttsSettings.pitch.toFixed(1);
-      document.getElementById('ttsVolumeValue').textContent = ttsSettings.volume.toFixed(1);
-      document.getElementById('ttsPauseValue').textContent = ttsSettings.pauseBetweenDigits.toFixed(1) + 's';
     }
 
     // Toggle TTS
@@ -2208,7 +2561,47 @@
       }
     }
 
-    // Update TTS settings
+    function toggleTTS() {
+      // Cek dukungan browser untuk Web Speech API
+      if (!('speechSynthesis' in window)) {
+        showError('Browser Anda tidak mendukung Text-to-Speech. Silakan gunakan browser modern seperti Chrome, Edge, atau Safari.');
+        return;
+      }
+
+      ttsEnabled = !ttsEnabled;
+      saveTtsSettings();
+      updateTtsStatus();
+
+      const ttsSettingsElement = document.getElementById('ttsSettings');
+      if (ttsEnabled) {
+        ttsSettingsElement.style.display = 'block';
+
+        // Test TTS saat pertama kali diaktifkan
+        setTimeout(() => {
+          testTTS();
+        }, 500);
+
+        showError('Fitur suara pemenang telah diaktifkan');
+      } else {
+        ttsSettingsElement.style.display = 'none';
+        showError('Fitur suara pemenang telah dinonaktifkan');
+        stopSpeaking();
+      }
+    }
+    // // Update TTS sliders to match current settings
+    function updateTtsSliders() {
+      document.getElementById('ttsRateSlider').value = ttsSettings.rate;
+      document.getElementById('ttsPitchSlider').value = ttsSettings.pitch;
+      document.getElementById('ttsVolumeSlider').value = ttsSettings.volume;
+      document.getElementById('ttsPauseSlider').value = ttsSettings.pauseBetweenDigits;
+
+      document.getElementById('ttsRateValue').textContent = ttsSettings.rate.toFixed(1);
+      document.getElementById('ttsPitchValue').textContent = ttsSettings.pitch.toFixed(1);
+      document.getElementById('ttsVolumeValue').textContent = ttsSettings.volume.toFixed(1);
+      document.getElementById('ttsPauseValue').textContent = ttsSettings.pauseBetweenDigits.toFixed(1) + 's';
+    }
+
+    // // Update TTS settings
     function updateTtsRate(value) {
       ttsSettings.rate = parseFloat(value);
       document.getElementById('ttsRateValue').textContent = value;
@@ -2233,6 +2626,36 @@
       saveTtsSettings();
     }
 
+    // Update TTS settings display
+    // function updateTtsSliders() {
+    //   document.getElementById('ttsRateSlider').value = ttsSettings.rate;
+    //   document.getElementById('ttsPitchSlider').value = ttsSettings.pitch;
+    //   document.getElementById('ttsVolumeSlider').value = ttsSettings.volume;
+
+    //   document.getElementById('ttsRateValue').textContent = ttsSettings.rate.toFixed(1);
+    //   document.getElementById('ttsPitchValue').textContent = ttsSettings.pitch.toFixed(1);
+    //   document.getElementById('ttsVolumeValue').textContent = ttsSettings.volume.toFixed(1);
+    // }
+
+    // function updateTtsRate(value) {
+    //   ttsSettings.rate = parseFloat(value);
+    //   document.getElementById('ttsRateValue').textContent = value;
+    //   saveTtsSettings();
+    // }
+
+    // function updateTtsPitch(value) {
+    //   ttsSettings.pitch = parseFloat(value);
+    //   document.getElementById('ttsPitchValue').textContent = value;
+    //   saveTtsSettings();
+    // }
+
+    // function updateTtsVolume(value) {
+    //   ttsSettings.volume = parseFloat(value);
+    //   document.getElementById('ttsVolumeValue').textContent = value;
+    //   saveTtsSettings();
+    // }
+
+    // Hapus fungsi pauseBetweenDigits karena tidak diperlukan lagi
     // Update TTS status display
     function updateTtsStatus() {
       const ttsStatus = document.getElementById('ttsStatus');
@@ -2249,22 +2672,24 @@
       }
     }
 
-    // Function to speak the winner number
+    // // Function to speak the winner number
     function speakWinnerNumber() {
       if (!ttsEnabled || !currentWinnerNumber) return;
+
+      const winner = winners[winners.length - 1]; // Get the latest winner
 
       // Stop any ongoing speech
       stopSpeaking();
 
       // Split number into individual digits for clearer pronunciation
       const digits = currentWinnerNumber.split('');
-      let fullText = `Nomor pemenang adalah `;
+      let fullText = `Selamat! Pemenang doorprize adalah ${winner.name} dengan nomor `;
 
       // Add each digit with a slight pause for clarity
       digits.forEach((digit, index) => {
         fullText += digit;
         if (index < digits.length - 1) {
-          fullText += '... ';
+          fullText += ' ... ';
         }
       });
 
@@ -2277,114 +2702,262 @@
       utterance.volume = ttsSettings.volume;
 
       // Set up event handlers
-      utterance.onstart = function() {
+      utterance.onstart = function () {
         document.getElementById('ttsButton').style.display = 'none';
         document.getElementById('stopTtsButton').style.display = 'block';
       };
-      
-      utterance.onend = function() {
+
+      utterance.onend = function () {
         document.getElementById('ttsButton').style.display = 'block';
         document.getElementById('stopTtsButton').style.display = 'none';
         currentUtterance = null;
       };
-      
-      utterance.onerror = function(event) {
+
+      utterance.onerror = function (event) {
         console.error('Speech synthesis error:', event);
         document.getElementById('ttsButton').style.display = 'block';
         document.getElementById('stopTtsButton').style.display = 'none';
         currentUtterance = null;
-        
+
         // Fallback: try with English voice if Indonesian is not available
         if (event.error === 'voice-not-found') {
           utterance.lang = 'en-US';
           speechSynthesis.speak(utterance);
         }
       };
-      
+
       // Try to set Indonesian voice with higher pitch for clarity
       const voices = speechSynthesis.getVoices();
-      
+
       // Prefer female voices for clearer articulation
-      let preferredVoice = voices.find(voice => 
-        voice.lang === 'id-ID' && 
+      let preferredVoice = voices.find(voice =>
+        voice.lang === 'id-ID' &&
         (voice.name.includes('Perempuan') || voice.name.toLowerCase().includes('female'))
       );
-      
+
       // If no Indonesian female voice, try any Indonesian voice
       if (!preferredVoice) {
         preferredVoice = voices.find(voice => voice.lang === 'id-ID');
       }
-      
+
       // If still no Indonesian voice, try English female voice
       if (!preferredVoice) {
-        preferredVoice = voices.find(voice => 
-          voice.lang.startsWith('en') && 
+        preferredVoice = voices.find(voice =>
+          voice.lang.startsWith('en') &&
           (voice.name.toLowerCase().includes('female') || voice.name.toLowerCase().includes('woman'))
         );
       }
-      
+
       // Final fallback: any English voice
       if (!preferredVoice) {
         preferredVoice = voices.find(voice => voice.lang.startsWith('en'));
       }
-      
+
       if (preferredVoice) {
         utterance.voice = preferredVoice;
       }
-      
+
       currentUtterance = utterance;
       speechSynthesis.speak(utterance);
+    }
+
+    // // Function untuk speak winner number dengan Web Speech API
+    // function speakWinnerNumber() {
+    //   if (!ttsEnabled || !currentWinnerNumber) return;
+
+    //   // Stop any ongoing speech
+    //   stopSpeaking();
+
+    //   const winner = winners[winners.length - 1]; // Get the latest winner
+
+    //   // Format teks untuk diucapkan
+    //   const digits = currentWinnerNumber.split('');
+    //   let fullText = `Selamat! Pemenang doorprize adalah ${winner.name} dengan nomor`;
+    //   // const announcement = `Selamat! Pemenang doorprize adalah ${winner.name} dengan nomor ${formatNumberForSpeech(winner.number)}`;
+
+    //   // Add each digit with a slight pause for clarity
+    //   digits.forEach((digit, index) => {
+    //     fullText += digit;
+    //     if (index < digits.length - 1) {
+    //       fullText += '... ';
+    //     }
+    //   });
+
+    //   // Create utterance
+    //   const utterance = new SpeechSynthesisUtterance();
+    //   utterance.text = fullText;
+    //   utterance.lang = ttsSettings.lang;
+    //   utterance.rate = ttsSettings.rate;
+    //   utterance.pitch = ttsSettings.pitch;
+    //   utterance.volume = ttsSettings.volume;
+
+    //   // Cari voice laki-laki Indonesia
+    //   const voices = speechSynthesis.getVoices();
+    //   const maleVoice = findMaleIndonesianVoice(voices);
+
+    //   if (maleVoice) {
+    //     utterance.voice = maleVoice;
+    //   }
+
+    //   // Event handlers
+    //   utterance.onstart = function () {
+    //     console.log('Speech started');
+    //     document.getElementById('ttsButton').style.display = 'none';
+    //     document.getElementById('stopTtsButton').style.display = 'block';
+    //   };
+
+    //   utterance.onend = function () {
+    //     console.log('Speech ended');
+    //     document.getElementById('ttsButton').style.display = 'block';
+    //     document.getElementById('stopTtsButton').style.display = 'none';
+    //     currentUtterance = null;
+    //   };
+
+    //   utterance.onerror = function (event) {
+    //     console.error('Speech synthesis error:', event);
+    //     document.getElementById('ttsButton').style.display = 'block';
+    //     document.getElementById('stopTtsButton').style.display = 'none';
+    //     currentUtterance = null;
+
+    //     // Fallback: coba dengan voice default
+    //     if (event.error === 'voice-not-found') {
+    //       speakWithDefaultVoice(announcement);
+    //     }
+    //   };
+
+    //   currentUtterance = utterance;
+    //   speechSynthesis.speak(utterance);
+    // }
+
+    // Function untuk mencari voice laki-laki Indonesia
+    function findMaleIndonesianVoice(voices) {
+      // Prioritas: voice Indonesia laki-laki
+      let preferredVoice = voices.find(voice =>
+        voice.lang === 'id-ID' &&
+        voice.name.toLowerCase().includes('male')
+      );
+
+      // Jika tidak ditemukan, cari voice Indonesia apapun
+      if (!preferredVoice) {
+        preferredVoice = voices.find(voice => voice.lang === 'id-ID');
+      }
+
+      // Jika masih tidak ditemukan, cari voice English male
+      if (!preferredVoice) {
+        preferredVoice = voices.find(voice =>
+          voice.lang.startsWith('en') &&
+          voice.name.toLowerCase().includes('male')
+        );
+      }
+
+      return preferredVoice;
+    }
+
+    // Fallback function
+    function speakWithDefaultVoice(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'id-ID';
+      utterance.rate = ttsSettings.rate;
+      utterance.pitch = ttsSettings.pitch;
+      utterance.volume = ttsSettings.volume;
+
+      utterance.onstart = function () {
+        document.getElementById('ttsButton').style.display = 'none';
+        document.getElementById('stopTtsButton').style.display = 'block';
+      };
+
+      utterance.onend = function () {
+        document.getElementById('ttsButton').style.display = 'block';
+        document.getElementById('stopTtsButton').style.display = 'none';
+        currentUtterance = null;
+      };
+
+      currentUtterance = utterance;
+      speechSynthesis.speak(utterance);
+    }
+
+    // Format nomor untuk pengucapan yang lebih natural
+    function formatNumberForSpeech(number) {
+      if (!number) return '';
+
+      // Pisahkan angka menjadi digit individual untuk pengucapan yang jelas
+      const digits = number.toString().split('');
+      return digits.map(digit => {
+        switch (digit) {
+          case '0': return 'nol';
+          case '1': return 'satu';
+          case '2': return 'dua';
+          case '3': return 'tiga';
+          case '4': return 'empat';
+          case '5': return 'lima';
+          case '6': return 'enam';
+          case '7': return 'tujuh';
+          case '8': return 'delapan';
+          case '9': return 'sembilan';
+          default: return digit;
+        }
+      }).join(' ');
+    }
+
+    // Function untuk stop speaking
+    function stopSpeaking() {
+      if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        document.getElementById('ttsButton').style.display = 'block';
+        document.getElementById('stopTtsButton').style.display = 'none';
+        currentUtterance = null;
+      }
     }
 
     // Alternative method for even clearer digit-by-digit pronunciation
     function speakDigitsClearly() {
       if (!ttsEnabled || !currentWinnerNumber) return;
-      
+
       stopSpeaking();
-      
+
       const digits = currentWinnerNumber.split('');
       let currentIndex = 0;
-      
+
       function speakNextDigit() {
         if (currentIndex >= digits.length) {
           document.getElementById('ttsButton').style.display = 'block';
           document.getElementById('stopTtsButton').style.display = 'none';
           return;
         }
-        
+
         const utterance = new SpeechSynthesisUtterance();
         utterance.text = digits[currentIndex];
         utterance.lang = 'id-ID';
         utterance.rate = ttsSettings.rate;
         utterance.pitch = ttsSettings.pitch;
         utterance.volume = ttsSettings.volume;
-        
-        utterance.onend = function() {
+
+        utterance.onend = function () {
           currentIndex++;
           setTimeout(speakNextDigit, ttsSettings.pauseBetweenDigits * 1000);
         };
-        
-        utterance.onerror = function() {
+
+        utterance.onerror = function () {
           currentIndex++;
           setTimeout(speakNextDigit, ttsSettings.pauseBetweenDigits * 1000);
         };
-        
+
         // Try to set a clear voice
         const voices = speechSynthesis.getVoices();
-        const preferredVoice = voices.find(voice => 
+        const preferredVoice = voices.find(voice =>
           voice.lang === 'id-ID' || voice.lang.startsWith('en')
         );
-        
+
         if (preferredVoice) {
           utterance.voice = preferredVoice;
         }
-        
+
         speechSynthesis.speak(utterance);
       }
-      
+
       document.getElementById('ttsButton').style.display = 'none';
       document.getElementById('stopTtsButton').style.display = 'block';
-      
+
       // Start with announcement
       const introUtterance = new SpeechSynthesisUtterance();
       introUtterance.text = "Nomor pemenang adalah";
@@ -2392,11 +2965,11 @@
       introUtterance.rate = ttsSettings.rate;
       introUtterance.pitch = ttsSettings.pitch;
       introUtterance.volume = ttsSettings.volume;
-      
-      introUtterance.onend = function() {
+
+      introUtterance.onend = function () {
         setTimeout(speakNextDigit, 500);
       };
-      
+
       speechSynthesis.speak(introUtterance);
     }
 
@@ -2408,6 +2981,74 @@
         document.getElementById('stopTtsButton').style.display = 'none';
         currentUtterance = null;
       }
+    }
+
+    // Load excluded winners from localStorage
+    function loadExcludedWinnersFromStorage() {
+      const stored = localStorage.getItem('excludedWinners');
+      if (stored) {
+        excludedWinners = JSON.parse(stored);
+      }
+    }
+
+    // Save excluded winners to localStorage
+    function saveExcludedWinnersToStorage() {
+      localStorage.setItem('excludedWinners', JSON.stringify(excludedWinners));
+    }
+
+    // Function untuk memuat dan mengelola voices
+    function loadVoices() {
+      return new Promise((resolve) => {
+        const voices = speechSynthesis.getVoices();
+        if (voices.length > 0) {
+          resolve(voices);
+        } else {
+          speechSynthesis.onvoiceschanged = () => {
+            const voices = speechSynthesis.getVoices();
+            resolve(voices);
+          };
+        }
+      });
+    }
+
+    // Function untuk menampilkan informasi voices yang tersedia
+    function showAvailableVoices() {
+      loadVoices().then(voices => {
+        console.log('Available voices:', voices);
+
+        const indonesianVoices = voices.filter(voice => voice.lang === 'id-ID');
+        const maleVoices = voices.filter(voice =>
+          voice.name.toLowerCase().includes('male') ||
+          voice.name.toLowerCase().includes('pria')
+        );
+
+        console.log('Indonesian voices:', indonesianVoices);
+        console.log('Male voices:', maleVoices);
+
+        if (indonesianVoices.length === 0) {
+          console.warn('No Indonesian voices found. Using default voices.');
+        }
+      });
+    }
+
+    // Function untuk test TTS
+    function testTTS() {
+      const testText = "Halo, ini adalah tes suara untuk sistem doorprize";
+      const utterance = new SpeechSynthesisUtterance(testText);
+      utterance.lang = 'id-ID';
+      utterance.rate = ttsSettings.rate;
+      utterance.pitch = ttsSettings.pitch;
+      utterance.volume = ttsSettings.volume;
+
+      // Cari voice terbaik
+      const voices = speechSynthesis.getVoices();
+      const bestVoice = findMaleIndonesianVoice(voices);
+
+      if (bestVoice) {
+        utterance.voice = bestVoice;
+      }
+
+      speechSynthesis.speak(utterance);
     }
 
     // Initialize the app when the page loads
