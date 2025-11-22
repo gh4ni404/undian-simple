@@ -631,7 +631,7 @@
       color: #fff;
       font-size: 36px;
       font-weight: 800;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.35);
     }
 
     .winner-detail-name {
@@ -647,9 +647,19 @@
     }
 
     .winner-detail-card {
-      background: #f8f9fa;
-      padding: 12px;
-      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      padding: var(--card-padding);
+      gap:18px;
+      align-items:center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+      backdrop-filter: blur(10px) saturate(120%);
+      -webkit-backdrop-filter: blur(10px) saturate(120%);
+      position:relative;
+      overflow:visible;
+      transform-origin:center;
+      animation: cardPop .6s cubic-bezier(.2,.9,.3,1);
     }
 
     /* glow animation */
@@ -1860,7 +1870,7 @@
             </div>
 
             <div class="winner-detail-card">
-              <div class="winner-detail-label">NIK</div>
+              <div class="winner-detail-label">Alamat</div>
               <div class="winner-detail-value">${randomParticipant.alamat || '-'}</div>
             </div>
 
